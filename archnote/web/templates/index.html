@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Archnote Formatter</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>Archnote Clinical Note Builder</h1>
+        <p>Standardize your documentation and append new visit investigations in seconds.</p>
+      </header>
+
+      {% if message %}
+      <div class="message">{{ message }}</div>
+      {% endif %}
+
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <div class="card-grid">
+        <section class="card">
+          <h2>1. Format a raw note</h2>
+          <form method="post" action="/format">
+            <label for="raw_note">Paste the unstructured note</label>
+            <textarea id="raw_note" name="raw_note" placeholder="Paste raw clinical note...">{{ raw_note }}</textarea>
+            <button class="button" type="submit">Format note</button>
+          </form>
+          <div>
+            <label>Standardized template output</label>
+            <div class="output">{{ formatted_note }}</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>2. Append a new visit</h2>
+          <form method="post" action="/update">
+            <label for="existing_note">Existing formatted note</label>
+            <textarea id="existing_note" name="existing_note" placeholder="Paste the formatted note you want to update">{{ existing_note }}</textarea>
+
+            <label for="visit_report">New investigations or report</label>
+            <textarea id="visit_report" name="visit_report" placeholder="Describe the new visit's findings">{{ visit_report }}</textarea>
+
+            <label for="visit_label">Visit label</label>
+            <input id="visit_label" type="text" name="visit_label" value="{{ visit_label }}" placeholder="e.g. Cardiology follow-up" />
+
+            <label for="visit_date">Visit date</label>
+            <input id="visit_date" type="text" name="visit_date" value="{{ visit_date }}" placeholder="e.g. 03/18/2024" />
+
+            <button class="button" type="submit">Append visit</button>
+          </form>
+          <div>
+            <label>Updated note</label>
+            <div class="output">{{ updated_note }}</div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <p>Tips: Keep reports concise, include dates for normalization, and paste prior notes to build longitudinal narratives.</p>
+      </footer>
+    </div>
+  </body>
+</html>
